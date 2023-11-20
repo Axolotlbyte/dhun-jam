@@ -18,6 +18,7 @@ import "./dashboard.css";
 // }
 
 export default function Dashboard({}) {
+  const [reload, setReload] = useState(false);
   const [data, setData] = useState({
     id: null,
     name: "Loading... ",
@@ -57,25 +58,59 @@ export default function Dashboard({}) {
       }
     };
 
-    getData();
-  }, []);
+    const userData = localStorage.getItem("userData");
 
-  const handleSave = () => {
+    console.log(userData)
+
+    getData();
+  }, [reload]);
+
+  useEffect(() => {
+    if (data.charge_customers) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [data.charge_customers]);
+
+  const handleSave = async (e) => {
+    e.preventDefault();
     try {
-      const res = axios.put("", {});
+      const body = {
+        amount: {
+          category_6: data.amount.category_6,
+          category_7: data.amount.category_7,
+          category_8: data.amount.category_8,
+          category_9: data.amount.category_9,
+          category_10: data.amount.category_10,
+        },
+      };
+
+      const res = await axios.put("https://stg.dhunjam.in/account/admin/4", {
+        ...body,
+      });
+
+      console.log(body);
+
+      alert("Success!");
+
+      return setData({ ...data, ...res.data.data });
     } catch (error) {
       console.log(error);
+      alert("an error occured!");
+      return setReload(!reload);
     }
   };
+
   return (
-    <div className="w-full min-h-screen bg-black">
-      <div style={{ width: "600px" }} className=" mx-auto ">
+    <div className="w-full bg-black">
+      <div style={{ width: "600px" }} className=" mx-auto h-fit ">
         {/* Heading */}
-        <h1 className="py-5 font-extrabold">
+        <h1 className="py-5 font-extrabold mb-10">
           {data.name}, {data.location} at Dhun Jam
         </h1>
 
-        <form className="flex gap-8 flex-col text-left">
+        <form className="flex gap-8 flex-col h-fit text-left">
           {/* Point 3 */}
           <div className="flex gap-5 items-center justify-center">
             <p className="w-1/2">
@@ -87,6 +122,7 @@ export default function Dashboard({}) {
                   value={"yes"}
                   type="radio"
                   checked={data.charge_customers}
+                  onClick={() => setData({ ...data, charge_customers: true })}
                 />
                 Yes
               </label>
@@ -95,6 +131,7 @@ export default function Dashboard({}) {
                   value={"no"}
                   type="radio"
                   checked={!data.charge_customers}
+                  onClick={() => setData({ ...data, charge_customers: false })}
                 />
                 No
               </label>
@@ -102,95 +139,121 @@ export default function Dashboard({}) {
           </div>
 
           {/* Custom Song Amount */}
-          <div className="flex gap-5 items-center justify-center">
+          <div className="flex h-fit gap-5 items-center justify-center">
             <p className="w-1/2">Custom song request amount - </p>
             <div className="w-1/2">
               <input
                 style={{ maxWidth: "300px" }}
-                className="py-2 px-2 rounded-lg border border-white bg-transparent"
+                id={""}
+                className={"py-2 px-2 rounded-lg border border-white" + (data.charge_customers ? " bg-transparent" : " disabled-button cursor-not-allowed")}
                 type="number"
                 placeholder="enter amount"
                 value={data.amount.category_6}
                 disabled={!data.charge_customers}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    amount: { ...data.amount, category_6: e.target.value },
+                  })
+                }
               />
             </div>
           </div>
 
           {/* Regular Songs */}
-          <div className="flex gap-5 items-center justify-center">
+          <div className="flex h-fit gap-5 items-center justify-center">
             <p className="w-1/2">
               Regular song request amount from high to low -
             </p>
             <div className="flex shrink-0 gap-2 w-1/2">
               <input
-                className="w-1/4 p-2 border border-white rounded-lg bg-transparent"
+                className={"w-1/4 p-2 border border-white rounded-lg" + (data.charge_customers ? " bg-transparent" : " disabled-button cursor-not-allowed")}
                 type="number"
                 placeholder="0"
                 value={data.amount.category_10}
                 disabled={!data.charge_customers}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    amount: { ...data.amount, category_10: e.target.value },
+                  })
+                }
               />
               <input
-                className="w-1/4 p-2 border border-white rounded-lg bg-transparent"
+                className={"w-1/4 p-2 border border-white rounded-lg" + (data.charge_customers ? " bg-transparent" : " disabled-button cursor-not-allowed")}
                 type="number"
                 placeholder="0"
                 value={data.amount.category_9}
                 disabled={!data.charge_customers}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    amount: { ...data.amount, category_9: e.target.value },
+                  })
+                }
               />
               <input
-                className="w-1/4 p-2 border border-white rounded-lg bg-transparent"
+                className={"w-1/4 p-2 border border-white rounded-lg" + (data.charge_customers ? " bg-transparent" : " disabled-button cursor-not-allowed")}
                 type="number"
                 placeholder="0"
                 value={data.amount.category_8}
                 disabled={!data.charge_customers}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    amount: { ...data.amount, category_8: e.target.value },
+                  })
+                }
               />
               <input
-                className="w-1/4 p-2 border border-white rounded-lg bg-transparent"
+                className={"w-1/4 p-2 border border-white rounded-lg" + (data.charge_customers ? " bg-transparent" : " disabled-button cursor-not-allowed")}
                 type="number"
                 placeholder="0"
                 value={data.amount.category_7}
                 disabled={!data.charge_customers}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    amount: { ...data.amount, category_7: e.target.value },
+                  })
+                }
               />
             </div>
           </div>
 
           {/* Graph */}
           <div>
-            {/* <Plot
-              className="bg-transparent"
-              data={[
-                {
-                  type: "bar",
-                  colorbar: { color: "#F0C3F1" },
-                  colorscale: { color: "#000000" },
-
-                  x: [1, 2, 3, 4, 5],
-                  y: [
-                    data.amount.category_6,
-                    data.amount.category_7,
-                    data.amount.category_8,
-                    data.amount.category_9,
-                    data.amount.category_10,
-                  ],
-                },
-              ]}
-              layout={{ width: 600, height: 600, colorway: "" }}
-            /> */}
             <Chart
               chartType="Bar"
               width="100%"
               height="400px"
               data={dataCh}
-              options={{}}
-              className="bg-black"
-              // options={options}
+              options={{
+                width: "600px",
+                height: "600px",
+                backgroundColor: "#000000",
+                chartArea: {
+                  backgroundColor: {
+                    fill: "#000000",
+                    fillOpacity: 0.8,
+                  },
+                },
+                // Colors the entire chart area, simple version
+                // backgroundColor: '#FF0000',
+                // Colors the entire chart area, with opacity
+              }}
             />
           </div>
 
           <button
-            className={"input-button" + (data.charge_customers ? "" : " ")}
-            disabled
-            onClick={() => ""}
+            className={
+              "ds-button " +
+              (data.charge_customers ? "" : " cursor-not-allowed")
+            }
+            id={data.charge_customers ? "enabled-button" : "disabled-button"}
+            onClick={(e) => handleSave(e)}
             type="submit"
+            disabled={!data.charge_customers}
           >
             Save
           </button>

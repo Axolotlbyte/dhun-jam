@@ -17,12 +17,19 @@ export default function Login() {
           ...body,
         }
       );
-      
+
       console.log(res);
+
+      localStorage.setItem("userData", JSON.stringify({ ...res.data.data }));
 
       return navigate("/dashboard");
     } catch (error) {
       console.log(error);
+      alert('an error occured!')
+      return setBody({
+        username: "",
+        password: ""
+      })
     }
   };
   const navigate = useNavigate();

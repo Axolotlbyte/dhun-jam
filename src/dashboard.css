@@ -1,4 +1,42 @@
-.disabled-button {
+#disabled-button {
   background-color: #c2c2c2;
-  color: #c2c2c2;
+  color: #8b8b8b;
+}
+
+#enabled-button {
+  background-color: #6741d9;
+  color: white;
+}
+
+.ds-button {
+  font-size: 16px;
+  font-weight: bold;
+  width: 600px;
+  padding: 18px;
+  border-radius: 15px;
+  border: none;
+  box-sizing: border-box;
+}
+.ds-button:hover {
+  outline: #f0c3f1 solid 1px;
+}
+.ds-button:focus,
+.ds-button:focus-visible {
+  outline: 1px auto #f0c3f1;
+}
+
+.ds-input {
+  font-size: 16px;
+  width: 600px;
+  border-width: 1.5px;
+  border-color: #ffffff;
+  padding: 18px 10px;
+  border-radius: 15px;
+  box-sizing: border-box;
+}
+.ds-input:focus {
+  outline: #f0c3f1 solid 1px;
+}
+.ds-input:hover {
+  outline: 1px auto #f0c3f1;
 }
