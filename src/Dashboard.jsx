@@ -45,9 +45,11 @@ export default function Dashboard({}) {
   ];
 
   useEffect(() => {
-    const getData = async () => {
+    const getData = async (id) => {
       try {
-        const res = await axios.get("https://stg.dhunjam.in/account/admin/4");
+        const res = await axios.get(
+          "https://stg.dhunjam.in/account/admin/" + id
+        );
 
         // console.log(res.data);
 
@@ -58,11 +60,9 @@ export default function Dashboard({}) {
       }
     };
 
-    const userData = localStorage.getItem("userData");
+    const userData = JSON.parse(localStorage.getItem("userData"));
 
-    console.log(userData);
-
-    getData();
+    getData(userData.id);
   }, [reload]);
 
   useEffect(() => {
@@ -97,9 +97,12 @@ export default function Dashboard({}) {
         },
       };
 
-      const res = await axios.put("https://stg.dhunjam.in/account/admin/4", {
-        ...body,
-      });
+      const res = await axios.put(
+        "https://stg.dhunjam.in/account/admin/" + data.id,
+        {
+          ...body,
+        }
+      );
 
       console.log(body);
 
@@ -132,7 +135,9 @@ export default function Dashboard({}) {
                 <input
                   value={"yes"}
                   type="radio"
+                  style={{ backgroundColor: "#ffffff" }}
                   checked={data.charge_customers}
+                  className="bg-white"
                   onClick={() => setData({ ...data, charge_customers: true })}
                 />
                 Yes
@@ -141,6 +146,7 @@ export default function Dashboard({}) {
                 <input
                   value={"no"}
                   type="radio"
+                  className="bg-white"
                   checked={!data.charge_customers}
                   onClick={() => setData({ ...data, charge_customers: false })}
                 />
@@ -301,7 +307,7 @@ export default function Dashboard({}) {
           </div>
 
           <button
-            className={"ds-button " + (disabled ? "" : " cursor-not-allowed")}
+            className={"ds-button " + (disabled ? " cursor-not-allowed" : "")}
             id={disabled ? "disabled-button" : "enabled-button"}
             onClick={(e) => handleSave(e)}
             type="submit"
