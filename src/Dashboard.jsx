@@ -60,7 +60,7 @@ export default function Dashboard({}) {
 
     const userData = localStorage.getItem("userData");
 
-    console.log(userData)
+    console.log(userData);
 
     getData();
   }, [reload]);
@@ -75,6 +75,10 @@ export default function Dashboard({}) {
 
   const handleSave = async (e) => {
     e.preventDefault();
+    if (data.amount.category_6 < 99) {
+      alert("custom song amount too low");
+      return;
+    }
     try {
       const body = {
         amount: {
@@ -145,7 +149,12 @@ export default function Dashboard({}) {
               <input
                 style={{ maxWidth: "300px" }}
                 id={""}
-                className={"py-2 px-2 rounded-lg border border-white" + (data.charge_customers ? " bg-transparent" : " disabled-button cursor-not-allowed")}
+                className={
+                  "py-2 px-2 rounded-lg border border-white" +
+                  (data.charge_customers
+                    ? " bg-transparent"
+                    : " disabled-button cursor-not-allowed")
+                }
                 type="number"
                 placeholder="enter amount"
                 value={data.amount.category_6}
@@ -156,6 +165,7 @@ export default function Dashboard({}) {
                     amount: { ...data.amount, category_6: e.target.value },
                   })
                 }
+                min={99}
               />
             </div>
           </div>
@@ -167,7 +177,12 @@ export default function Dashboard({}) {
             </p>
             <div className="flex shrink-0 gap-2 w-1/2">
               <input
-                className={"w-1/4 p-2 border border-white rounded-lg" + (data.charge_customers ? " bg-transparent" : " disabled-button cursor-not-allowed")}
+                className={
+                  "w-1/4 p-2 border border-white rounded-lg" +
+                  (data.charge_customers
+                    ? " bg-transparent"
+                    : " disabled-button cursor-not-allowed")
+                }
                 type="number"
                 placeholder="0"
                 value={data.amount.category_10}
@@ -178,9 +193,15 @@ export default function Dashboard({}) {
                     amount: { ...data.amount, category_10: e.target.value },
                   })
                 }
+                min={79}
               />
               <input
-                className={"w-1/4 p-2 border border-white rounded-lg" + (data.charge_customers ? " bg-transparent" : " disabled-button cursor-not-allowed")}
+                className={
+                  "w-1/4 p-2 border border-white rounded-lg" +
+                  (data.charge_customers
+                    ? " bg-transparent"
+                    : " disabled-button cursor-not-allowed")
+                }
                 type="number"
                 placeholder="0"
                 value={data.amount.category_9}
@@ -191,9 +212,15 @@ export default function Dashboard({}) {
                     amount: { ...data.amount, category_9: e.target.value },
                   })
                 }
+                min={59}
               />
               <input
-                className={"w-1/4 p-2 border border-white rounded-lg" + (data.charge_customers ? " bg-transparent" : " disabled-button cursor-not-allowed")}
+                className={
+                  "w-1/4 p-2 border border-white rounded-lg" +
+                  (data.charge_customers
+                    ? " bg-transparent"
+                    : " disabled-button cursor-not-allowed")
+                }
                 type="number"
                 placeholder="0"
                 value={data.amount.category_8}
@@ -204,9 +231,15 @@ export default function Dashboard({}) {
                     amount: { ...data.amount, category_8: e.target.value },
                   })
                 }
+                min={39}
               />
               <input
-                className={"w-1/4 p-2 border border-white rounded-lg" + (data.charge_customers ? " bg-transparent" : " disabled-button cursor-not-allowed")}
+                className={
+                  "w-1/4 p-2 border border-white rounded-lg" +
+                  (data.charge_customers
+                    ? " bg-transparent"
+                    : " disabled-button cursor-not-allowed")
+                }
                 type="number"
                 placeholder="0"
                 value={data.amount.category_7}
@@ -217,32 +250,47 @@ export default function Dashboard({}) {
                     amount: { ...data.amount, category_7: e.target.value },
                   })
                 }
+                min={19}
               />
             </div>
           </div>
 
           {/* Graph */}
-          <div>
-            <Chart
-              chartType="Bar"
-              width="100%"
-              height="400px"
-              data={dataCh}
-              options={{
-                width: "600px",
-                height: "600px",
-                backgroundColor: "#000000",
-                chartArea: {
-                  backgroundColor: {
-                    fill: "#000000",
-                    fillOpacity: 0.8,
+          <div className="relative">
+            {data.charge_customers ? (
+              <Chart
+                chartType="Bar"
+                width="100%"
+                height="400px"
+                data={dataCh}
+                options={{
+                  width: "600px",
+                  height: "600px",
+                  backgroundColor: "#000000",
+                  chartArea: {
+                    backgroundColor: {
+                      fill: "#000000",
+                      fillOpacity: 0.8,
+                    },
                   },
-                },
-                // Colors the entire chart area, simple version
-                // backgroundColor: '#FF0000',
-                // Colors the entire chart area, with opacity
-              }}
-            />
+                  // Colors the entire chart area, simple version
+                  // backgroundColor: '#FF0000',
+                  // Colors the entire chart area, with opacity
+                }}
+              />
+            ) : (
+              ""
+            )}
+            {/* <span style={{zIndex: 999}} className="absolute top-5 left-5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                class="bi bi-currency-rupee h-14 w-14"
+                viewBox="0 0 16 16"
+              >
+                <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4v1.06Z" />
+              </svg>
+            </span> */}
           </div>
 
           <button
