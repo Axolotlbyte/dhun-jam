@@ -66,12 +66,19 @@ export default function Dashboard({}) {
   }, [reload]);
 
   useEffect(() => {
-    if (data.charge_customers) {
-      setDisabled(false);
-    } else {
+    if (
+      data.amount.category_6 < 99 ||
+      data.amount.category_7 < 79 ||
+      data.amount.category_8 < 59 ||
+      data.amount.category_9 < 39 ||
+      data.amount.category_10 < 19 ||
+      !data.charge_customers
+    ) {
       setDisabled(true);
+    } else {
+      setDisabled(false);
     }
-  }, [data.charge_customers]);
+  }, [data]);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -294,14 +301,11 @@ export default function Dashboard({}) {
           </div>
 
           <button
-            className={
-              "ds-button " +
-              (data.charge_customers ? "" : " cursor-not-allowed")
-            }
-            id={data.charge_customers ? "enabled-button" : "disabled-button"}
+            className={"ds-button " + (disabled ? "" : " cursor-not-allowed")}
+            id={disabled ? "disabled-button" : "enabled-button"}
             onClick={(e) => handleSave(e)}
             type="submit"
-            disabled={!data.charge_customers}
+            disabled={disabled}
           >
             Save
           </button>

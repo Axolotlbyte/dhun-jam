@@ -11,6 +11,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setDisabled(true);
       const res = await axios.post(
         "https://stg.dhunjam.in/account/admin/login",
         {
@@ -18,18 +19,16 @@ export default function Login() {
         }
       );
 
-      console.log(res);
-
       localStorage.setItem("userData", JSON.stringify({ ...res.data.data }));
 
       return navigate("/dashboard");
     } catch (error) {
       console.log(error);
-      alert('an error occured!')
+      alert("an error occured!");
       return setBody({
         username: "",
-        password: ""
-      })
+        password: "",
+      });
     }
   };
   const navigate = useNavigate();
