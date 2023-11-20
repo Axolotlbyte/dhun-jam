@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.5;
+  font-weight: 800;
+
+  color-scheme: light dark;
+  color: #ffffff;
+  background-color: #000000;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+}
+
+.text-input {
+  font-size: 16px;
+  width: 600px;
+  border-width: 1.5px;
+  border-color: #ffffff;
+  padding: 18px 10px;
+  border-radius: 15px;
+  box-sizing: content-box;
+  background-color: transparent;
+}
+.text-input:focus {
+  border-width: 2px;
+}
+.text-input:hover {
+  outline: #ffffff solid 2.5px;
+}
+
+form {
+  display: grid;
+  gap: 20px;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: bolder;
+  line-height: 1.1;
+}
+
+.input-button {
+  font-size: 16px;
+  font-weight: bold;
+  width: 600px;
+  padding: 18px;
+  border-radius: 15px;
+  border: none;
+  box-sizing: border-box;
+  background-color: #6741d9;
+}
+.input-button:hover {
+  outline: #f0c3f1 solid 1px;
+}
+.input-button:focus,
+.input-button:focus-visible {
+  outline: 1px auto #f0c3f1;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
